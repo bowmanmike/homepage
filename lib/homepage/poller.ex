@@ -4,10 +4,9 @@ defmodule Homepage.Poller do
   require Logger
 
   alias Homepage.Store
-  alias Homepage.Clients.TTC
+  alias Homepage.Clients.{TTC, UP}
 
   @poll_interval 5 * 60 * 1000
-  # @poll_interval 3000
 
   def start_link(_args) do
     GenServer.start_link(__MODULE__, nil)
@@ -16,6 +15,7 @@ defmodule Homepage.Poller do
   @impl true
   def init(_args) do
     Process.send_after(self(), :poll_ttc, 0)
+    Process.send_after(self(), :poll_up, 0)
 
     {:ok, nil}
   end
@@ -31,7 +31,21 @@ defmodule Homepage.Poller do
     {:noreply, state}
   end
 
+  def handle_info(:poll_up, state) do
+    Logger.info("polling UP alerts")
+    alerts = UP.fetch()
+
+    Store.update_up_alerts(alerts)
+
+    schedule_poll(:up)
+    {:noreply, state}
+  end
+
   defp schedule_poll(:ttc) do
     Process.send_after(self(), :poll_ttc, @poll_interval)
+  end
+
+  defp schedule_poll(:up) do
+    Process.send_after(self(), :poll_up, @poll_interval)
   end
 end

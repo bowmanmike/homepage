@@ -35,7 +35,7 @@ defmodule Homepage.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
-      {:floki, ">= 0.30.0", only: :test},
+      {:floki, ">= 0.30.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:phoenix, "~> 1.7.2"},

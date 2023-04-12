@@ -13,6 +13,10 @@ defmodule Homepage.Store do
     Agent.get(__MODULE__, & &1[:go])
   end
 
+  def up_alerts do
+    Agent.get(__MODULE__, & &1[:up])
+  end
+
   def update_ttc_alerts(data) do
     Agent.update(__MODULE__, fn state -> Map.put(state, :ttc, data) end)
   end
@@ -21,4 +25,7 @@ defmodule Homepage.Store do
     Agent.update(__MODULE__, fn state -> Map.put(state, :go, data) end)
   end
 
+  def update_up_alerts(data) do
+    Agent.update(__MODULE__, fn state -> Map.put(state, :up, data) end)
+  end
 end

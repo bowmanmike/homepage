@@ -15,7 +15,7 @@ defmodule HomepageWeb.HomeLive do
   end
 
   defp assign_up_alerts(socket) do
-    assign(socket, :up_alerts, [%{route: "asf", title: "test", route_type: "A"}])
+    assign(socket, :up_alerts, Store.up_alerts())
   end
 
   def format_last_updated(timestamp) do

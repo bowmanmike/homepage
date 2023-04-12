@@ -8,3 +8,10 @@
     </p>
   </div>
 <% end %>
+
+<h2 class="font-semibold text-xl">UP Express</h2>
+<%= for alert <- @up_alerts do %>
+  <div class="my-2">
+    <%= alert %>
+  </div>
+<% end %>
