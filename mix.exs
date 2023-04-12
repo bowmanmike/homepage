@@ -19,7 +19,7 @@ defmodule Homepage.MixProject do
   def application do
     [
       mod: {Homepage.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -32,6 +32,7 @@ defmodule Homepage.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:ecto_psql_extras, "~> 0.6"},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
