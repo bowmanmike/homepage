@@ -37,7 +37,7 @@ defmodule HomepageWeb.Router do
       pipe_through [:browser, :admins_only]
     end
 
-    live_dashboard "/dashboard", metrics: TorontoTransitHubWeb.Telemetry
+    live_dashboard "/dashboard", metrics: HomepageWeb.Telemetry
   end
 
   defp admin_basic_auth(conn, _opts) do
