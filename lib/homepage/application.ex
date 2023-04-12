@@ -17,9 +17,10 @@ defmodule Homepage.Application do
       # Start Finch
       {Finch, name: Homepage.Finch},
       # Start the Endpoint (http/https)
-      HomepageWeb.Endpoint
+      HomepageWeb.Endpoint,
       # Start a worker by calling: Homepage.Worker.start_link(arg)
-      # {Homepage.Worker, arg}
+      {Homepage.Store, %{ttc: [], up: [], go: []}},
+      {Homepage.Poller, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -90,6 +90,8 @@ defmodule HomepageWeb do
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
+      import HomepageWeb.LiveHelpers
+
       # Routes generation with the ~p sigil
       unquote(verified_routes())
     end
