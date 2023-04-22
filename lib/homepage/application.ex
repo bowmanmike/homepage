@@ -19,8 +19,8 @@ defmodule Homepage.Application do
       # Start the Endpoint (http/https)
       HomepageWeb.Endpoint,
       # Start a worker by calling: Homepage.Worker.start_link(arg)
-      {Homepage.Store, %{ttc: [], up: [], go: []}},
-      {Homepage.Poller, []}
+      {Homepage.Store, %{ttc: [], up: [], go: []}}
+      # {Homepage.Poller, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -1,4 +1,6 @@
 <h2 class="font-semibold text-xl">TTC</h2>
+<.button phx-click="refresh-ttc">Refresh</.button>
+
 <%= for alert <- @ttc_alerts do %>
   <div class="my-2">
     <h3 class="font-semibold"><%= alert.route %> - <%= alert.route_type %></h3>
@@ -10,6 +12,7 @@
 <% end %>
 
 <h2 class="font-semibold text-xl">UP Express</h2>
+<.button phx-click="refresh-up">Refresh</.button>
 <%= for alert <- @up_alerts do %>
   <div class="my-2">
     <%= alert %>

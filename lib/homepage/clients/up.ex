@@ -13,15 +13,28 @@ defmodule Homepage.Clients.UP do
   end
 
   defp parse_response(%Req.Response{status: 200, body: body}) do
+    # require IEx
+    # IEx.pry()
+
     body
     |> Floki.parse_document!()
-    |> Floki.find("#serviceStatusLeftMargin")
-    |> Floki.find("h3 ~ div")
-    |> Floki.text()
-    |> String.trim()
-    |> String.split("\r\n")
-    |> Enum.map(&String.trim/1)
-    |> Enum.chunk_every(2)
+    |> then(fn html ->
+      Enum.map(html_selectors(), fn {station, selector} ->
+        html
+        |> Floki.find(selector)
+        |> then(fn content ->
+          # require IEx
+          # IEx.pry()
+
+          %{
+            station: station,
+            date: text_from_selector(content, ".StatusDateSemibold"),
+            timestamp: text_from_selector(content, ".Timestap1"),
+            message: text_from_selector(content, ".MargnBottom10Services:nth-of-type(2)")
+          }
+        end)
+      end)
+    end)
   end
 
   defp update_store(data) do
@@ -29,13 +42,16 @@ defmodule Homepage.Clients.UP do
   end
 
   defp html_selectors do
-    [
-      # generic
-      '',
-      '#paddingstatus div:contains("Union Station")',
-      '#paddingstatus div:contains("Bloor Station")',
-      '#paddingstatus div:contains("Weston Station")',
-      '#paddingstatus div:contains("Pearson Station")'
-    ]
+    %{
+      generic: "",
+      union: "#paddingstatus > div:fl-icontains(\"Union Station\") + div",
+      bloor: "#paddingstatus > div:fl-icontains(\"Bloor Station\") + div",
+      weston: "#paddingstatus > div:fl-icontains(\"Weston Station\") + div",
+      pearson: "#paddingstatus > div:fl-icontains(\"Pearson Station\") + div"
+    }
+  end
+
+  defp text_from_selector(parsed_html, selector) do
+    parsed_html |> Floki.find(selector) |> Floki.text() |> String.trim()
   end
 end
