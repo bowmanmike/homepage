@@ -27,7 +27,8 @@ defmodule Homepage.Clients.TTC do
         last_updated: Map.get(alert, "lastUpdated"),
         route: Map.get(alert, "route"),
         route_type: Map.get(alert, "routeType"),
-        title: Map.get(alert, "title")
+        title: Map.get(alert, "title"),
+        description: Map.get(alert, "description")
       }
     end)
   end
