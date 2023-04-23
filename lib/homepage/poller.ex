@@ -48,12 +48,4 @@ defmodule Homepage.Poller do
   defp schedule_poll(:up) do
     Process.send_after(self(), :poll_up, @poll_interval)
   end
-
-  def refresh_ttc do
-    GenServer.cast(__MODULE__, :poll_ttc)
-  end
-
-  def refresh_up do
-    GenServer.cast(__MODULE__, :poll_up)
-  end
 end

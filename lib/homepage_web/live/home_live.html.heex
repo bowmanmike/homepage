@@ -1,5 +1,4 @@
 <h2 class="font-semibold text-xl">TTC</h2>
-<%!-- <.button phx-click="refresh-ttc">Refresh</.button> --%>
 
 <%= for alert <- @ttc_alerts do %>
   <div class="my-2">
@@ -12,7 +11,7 @@
 <% end %>
 
 <h2 class="font-semibold text-xl">UP Express</h2>
-<%!-- <.button phx-click="refresh-up">Refresh</.button> --%>
+
 <%= for %{message: message} = alert when message != "" <- @up_alerts do %>
   <div class="my-2">
     <h3 class="font-semibold"><%= String.capitalize("#{alert.station}") %></h3>

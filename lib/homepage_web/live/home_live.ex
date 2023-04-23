@@ -1,7 +1,7 @@
 defmodule HomepageWeb.HomeLive do
   use HomepageWeb, :live_view
 
-  alias Homepage.{Store, Poller}
+  alias Homepage.Store
 
   @impl true
   def mount(_params, _session, socket) do
@@ -9,19 +9,6 @@ defmodule HomepageWeb.HomeLive do
     |> assign_ttc_alerts()
     |> assign_up_alerts()
     |> reply_ok()
-  end
-
-  @impl true
-  def handle_event("refresh-ttc", _params, socket) do
-    Poller.refresh_ttc()
-
-    noreply(socket)
-  end
-
-  def handle_event("refresh-up", _params, socket) do
-    Poller.refresh_up()
-
-    noreply(socket)
   end
 
   defp assign_ttc_alerts(socket) do
