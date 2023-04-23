@@ -13,9 +13,6 @@ defmodule Homepage.Clients.UP do
   end
 
   defp parse_response(%Req.Response{status: 200, body: body}) do
-    # require IEx
-    # IEx.pry()
-
     body
     |> Floki.parse_document!()
     |> then(fn html ->
@@ -23,14 +20,15 @@ defmodule Homepage.Clients.UP do
         html
         |> Floki.find(selector)
         |> then(fn content ->
-          # require IEx
-          # IEx.pry()
-
           %{
             station: station,
             date: text_from_selector(content, ".StatusDateSemibold"),
             timestamp: text_from_selector(content, ".Timestap1"),
-            message: text_from_selector(content, ".MargnBottom10Services:nth-of-type(2)")
+            message:
+              text_from_selector(
+                content,
+                ".MargnBottom10Services:nth-of-type(2) .masteroverridePublic_En"
+              )
           }
         end)
       end)
@@ -51,7 +49,7 @@ defmodule Homepage.Clients.UP do
     }
   end
 
-  defp text_from_selector(parsed_html, selector) do
+  def text_from_selector(parsed_html, selector) do
     parsed_html |> Floki.find(selector) |> Floki.text() |> String.trim()
   end
 end
