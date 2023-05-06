@@ -4,7 +4,7 @@ defmodule Homepage.Poller do
   require Logger
 
   alias Homepage.Store
-  alias Homepage.Clients.{TTC, UP}
+  alias Homepage.Clients.{Go, TTC, UP}
 
   @poll_interval 5 * 60 * 1000
 
@@ -16,6 +16,7 @@ defmodule Homepage.Poller do
   def init(_args) do
     Process.send_after(self(), :poll_ttc, 0)
     Process.send_after(self(), :poll_up, 0)
+    Process.send_after(self(), :poll_go, 0)
 
     {:ok, nil}
   end
@@ -41,11 +42,25 @@ defmodule Homepage.Poller do
     {:noreply, state}
   end
 
+  def handle_info(:poll_go, state) do
+    Logger.info("polling Go Transit alerts")
+    alerts = Go.fetch()
+
+    Store.update_go_alerts(alerts)
+
+    schedule_poll(:go)
+    {:noreply, state}
+  end
+
   defp schedule_poll(:ttc) do
     Process.send_after(self(), :poll_ttc, @poll_interval)
   end
 
   defp schedule_poll(:up) do
     Process.send_after(self(), :poll_up, @poll_interval)
+  end
+
+  defp schedule_poll(:go) do
+    Process.send_after(self(), :poll_go, @poll_interval)
   end
 end

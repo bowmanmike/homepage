@@ -8,6 +8,7 @@ defmodule HomepageWeb.HomeLive do
     socket
     |> assign_ttc_alerts()
     |> assign_up_alerts()
+    |> assign_go_alerts()
     |> reply_ok()
   end
 
@@ -17,6 +18,10 @@ defmodule HomepageWeb.HomeLive do
 
   defp assign_up_alerts(socket) do
     assign(socket, :up_alerts, Store.up_alerts())
+  end
+
+  defp assign_go_alerts(socket) do
+    assign(socket, :go_alerts, Store.go_alerts())
   end
 
   def format_last_updated(timestamp) do

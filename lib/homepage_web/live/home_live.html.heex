@@ -20,3 +20,13 @@
     <p>Last Updated: <span class="italic"><%= alert.date %> <%= alert.timestamp %></span></p>
   </div>
 <% end %>
+
+<h2 class="font-semibold text-xl">Go Transit</h2>
+
+<%= for alert <- @go_alerts do %>
+  <div class="my-2">
+    <h3 class="font-semibold"><%= String.capitalize("#{alert.route}") %></h3>
+    <p><%= alert.title %></p>
+    <p>Last Updated: <span class="italic"><%= alert.last_updated %></span></p>
+  </div>
+<% end %>
