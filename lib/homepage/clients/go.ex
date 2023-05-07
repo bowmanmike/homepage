@@ -41,7 +41,6 @@ defmodule Homepage.Clients.Go do
             end)
         end)
     end)
-    |> IO.inspect()
   end
 
   defp flatten_alerts("Buses", bus_alerts), do: bus_alerts["Bus"]
