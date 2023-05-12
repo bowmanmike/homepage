@@ -34,7 +34,7 @@ defmodule Homepage.Clients.Go do
             notifications
             |> Enum.map(fn notif ->
               %{
-                routes: alert["CorridorName"],
+                route: alert["CorridorName"],
                 title: notif["MessageSubject"],
                 last_updated: last_updated
               }
