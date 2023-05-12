@@ -9,6 +9,7 @@ defmodule HomepageWeb.HomeLive do
     |> assign_ttc_alerts()
     |> assign_up_alerts()
     |> assign_go_alerts()
+    |> assign_leafs_games()
     |> reply_ok()
   end
 
@@ -22,6 +23,10 @@ defmodule HomepageWeb.HomeLive do
 
   defp assign_go_alerts(socket) do
     assign(socket, :go_alerts, Store.go_alerts())
+  end
+
+  defp assign_leafs_games(socket) do
+    assign(socket, :leafs_games, Store.leafs_games())
   end
 
   def format_last_updated(timestamp) do

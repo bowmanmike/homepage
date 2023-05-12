@@ -4,9 +4,10 @@ defmodule Homepage.Poller do
   require Logger
 
   alias Homepage.Store
-  alias Homepage.Clients.{Go, TTC, UP}
+  alias Homepage.Clients.{Go, TTC, UP, Leafs}
 
   @poll_interval 5 * 60 * 1000
+  @leafs_poll_interval 1000 * 60 * 60
 
   def start_link(_args) do
     GenServer.start_link(__MODULE__, nil)
@@ -17,6 +18,7 @@ defmodule Homepage.Poller do
     Process.send_after(self(), :poll_ttc, 0)
     Process.send_after(self(), :poll_up, 0)
     Process.send_after(self(), :poll_go, 0)
+    Process.send_after(self(), :poll_leafs, 0)
 
     {:ok, nil}
   end
@@ -52,6 +54,16 @@ defmodule Homepage.Poller do
     {:noreply, state}
   end
 
+  def handle_info(:poll_leafs, state) do
+    Logger.info("polling Leafs games")
+    games = Leafs.fetch()
+
+    Store.update_leafs(games)
+
+    schedule_poll(:leafs)
+    {:noreply, state}
+  end
+
   defp schedule_poll(:ttc) do
     Process.send_after(self(), :poll_ttc, @poll_interval)
   end
@@ -62,5 +74,9 @@ defmodule Homepage.Poller do
 
   defp schedule_poll(:go) do
     Process.send_after(self(), :poll_go, @poll_interval)
+  end
+
+  defp schedule_poll(:leafs) do
+    Process.send_after(self(), :poll_leafs, @leafs_poll_interval)
   end
 end

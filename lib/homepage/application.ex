@@ -19,7 +19,7 @@ defmodule Homepage.Application do
       # Start the Endpoint (http/https)
       HomepageWeb.Endpoint,
       # Start a worker by calling: Homepage.Worker.start_link(arg)
-      {Homepage.Store, %{ttc: [], up: [], go: []}},
+      {Homepage.Store, Homepage.Store.defaults()},
       {Homepage.Poller, []}
     ]
 

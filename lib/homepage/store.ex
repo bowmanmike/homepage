@@ -1,6 +1,10 @@
 defmodule Homepage.Store do
   use Agent
 
+  def defaults do
+    %{ttc: [], up: [], go: [], leafs: []}
+  end
+
   def start_link(state) do
     Agent.start_link(fn -> state end, name: __MODULE__)
   end
@@ -17,6 +21,10 @@ defmodule Homepage.Store do
     Agent.get(__MODULE__, & &1[:up])
   end
 
+  def leafs_games do
+    Agent.get(__MODULE__, & &1[:leafs])
+  end
+
   def update_ttc_alerts(data) do
     Agent.update(__MODULE__, fn state -> Map.put(state, :ttc, data) end)
   end
@@ -27,5 +35,9 @@ defmodule Homepage.Store do
 
   def update_up_alerts(data) do
     Agent.update(__MODULE__, fn state -> Map.put(state, :up, data) end)
+  end
+
+  def update_leafs(data) do
+    Agent.update(__MODULE__, fn state -> Map.put(state, :leafs, data) end)
   end
 end

@@ -13,9 +13,17 @@ defmodule Homepage.Clients.Leafs do
       |> Map.get("games")
       |> Enum.take(5)
       |> Enum.map(fn game ->
+        {:ok, start_time} =
+          game
+          |> Map.get("gameDate")
+          |> DateTime.from_iso8601()
+          |> then(fn {:ok, date, _} -> DateTime.shift_zone(date, "America/Toronto") end)
+
         %{
-          start_time: Map.get(game, "gameDate"),
+          start_time: start_time,
           location: get_in(game, ["venue", "name"]),
+          if_necessary:
+            game |> Map.get("status") |> Map.get("detailedState") |> String.match?(~r/TBD/),
           opponent:
             Map.get(game, "teams")
             |> Enum.map(fn {_, team} -> Map.get(team, "team") end)
@@ -36,7 +44,8 @@ defmodule Homepage.Clients.Leafs do
         URI.encode_query(%{
           # leafs are team_id 10
           teamId: 10,
-          startDate: DateTime.utc_now() |> DateTime.to_date()
+          startDate: DateTime.utc_now() |> DateTime.to_date(),
+          endDate: DateTime.utc_now() |> DateTime.add(365, :day) |> DateTime.to_date()
         })
     }
   end

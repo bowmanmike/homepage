@@ -30,3 +30,13 @@
     <p>Last Updated: <span class="italic"><%= alert.last_updated %></span></p>
   </div>
 <% end %>
+
+<h2 class="font-semibold text-xl">Upcoming Leafs Games</h2>
+<%= for alert <- @leafs_games do %>
+  <div class="my-2">
+    <p>
+      <%= alert.opponent %> at <%= alert.location %><span :if={alert.if_necessary} class="italic"> if necessary</span>
+    </p>
+    <p><%= Calendar.strftime(alert.start_time, "%A, %B %d at %-I:%M %p") %></p>
+  </div>
+<% end %>
