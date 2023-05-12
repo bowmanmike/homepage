@@ -34,4 +34,12 @@ defmodule HomepageWeb.HomeLive do
 
     Calendar.strftime(date_time, "%H:%m %P, %a %d %b %Y")
   end
+
+  defp format_leafs_start_time(%{if_necessary: false, start_time: time}) do
+    Calendar.strftime(time, "%A, %B %d at %-I:%M %p")
+  end
+
+  defp format_leafs_start_time(%{start_time: time}) do
+    Calendar.strftime(time, "%A, %B %d")
+  end
 end

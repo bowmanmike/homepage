@@ -35,8 +35,11 @@
 <%= for alert <- @leafs_games do %>
   <div class="my-2">
     <p>
-      <%= alert.opponent %> at <%= alert.location %><span :if={alert.if_necessary} class="italic"> if necessary</span>
+      Maple Leafs vs. <%= alert.opponent %> at <%= alert.location %><span
+        :if={alert.if_necessary}
+        class="italic"
+      > if necessary</span>
     </p>
-    <p><%= Calendar.strftime(alert.start_time, "%A, %B %d at %-I:%M %p") %></p>
+    <p><%= format_leafs_start_time(alert) %></p>
   </div>
 <% end %>
