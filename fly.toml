@@ -1,4 +1,4 @@
-# fly.toml file generated for bowman-home on 2023-04-11T22:06:59-04:00
+# fly.toml file generated for bowman-home on 2023-05-14T22:27:33-04:00
 
 app = "bowman-home"
 kill_signal = "SIGTERM"
@@ -12,13 +12,19 @@ processes = []
 [env]
   PHX_HOST = "bowman-home.fly.dev"
   PORT = "8080"
+  PRIMARY_REGION = "yyz"
 
 [experimental]
+  allowed_public_ports = []
   auto_rollback = true
+  cmd = []
+  entrypoint = []
+  exec = []
 
 [[services]]
   http_checks = []
   internal_port = 8080
+  min_machines_running = 0
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
