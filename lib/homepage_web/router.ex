@@ -22,6 +22,7 @@ defmodule HomepageWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive
+    get "/home", HomeController, :index, accepts: ["json"]
   end
 
   # Other scopes may use custom stacks.
