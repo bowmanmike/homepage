@@ -59,6 +59,7 @@ defmodule HomepageWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+      live "/lists", HomepageWeb.ListsLive
     end
   end
 end

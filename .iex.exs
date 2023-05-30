@@ -1,1 +1,1 @@
-alias Homepage.Clients
+alias Homepage.{Clients, Store, SortableList, Repo}
