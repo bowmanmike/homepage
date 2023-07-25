@@ -26,7 +26,9 @@ defmodule HomepageWeb.HomeLive do
   end
 
   defp assign_leafs_games(socket) do
-    assign(socket, :leafs_games, Store.leafs_games())
+    games = Store.leafs_games() |> Enum.slice(0..9)
+
+    assign(socket, :leafs_games, games)
   end
 
   def format_last_updated(timestamp) do
