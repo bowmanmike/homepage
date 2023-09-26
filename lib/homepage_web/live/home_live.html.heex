@@ -39,7 +39,7 @@
         :if={alert.if_necessary}
         class="italic"
       > if necessary</span>
-      <span :if={alert.preseason?} class="italic"> -- Preseason</span>
+      <span :if={format_leafs_game_type(alert) == "Preseason"} class="italic"> -- Preseason</span>
     </p>
     <p><%= format_leafs_start_time(alert) %></p>
   </div>

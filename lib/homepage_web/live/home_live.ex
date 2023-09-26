@@ -44,4 +44,14 @@ defmodule HomepageWeb.HomeLive do
   defp format_leafs_start_time(%{start_time: time}) do
     Calendar.strftime(time, "%A, %B %d")
   end
+
+  @game_types %{
+    "PR" => "Preseason",
+    "R" => "Regular Season",
+    "P" => "Playoffs"
+  }
+
+  defp format_leafs_game_type(%{game_type: game_type}) do
+    Map.get(@game_types, game_type, "Unknown")
+  end
 end

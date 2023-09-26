@@ -29,7 +29,7 @@ defmodule Homepage.Clients.Leafs do
             |> Enum.map(fn {_, team} -> Map.get(team, "team") end)
             |> Enum.find(&(Map.get(&1, "name") != "Toronto Maple Leafs"))
             |> Map.get("name"),
-          preseason?: Map.get(game, "gameType") == "PR"
+          game_type: Map.get(game, "gameType")
         }
       end)
     end)
