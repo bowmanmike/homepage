@@ -1,6 +1,8 @@
 defmodule HomepageWeb.HomeLive do
   use HomepageWeb, :live_view
 
+  import HomepageWeb.Components.CollapsibleSection
+
   alias Homepage.Store
 
   @impl true
@@ -53,5 +55,9 @@ defmodule HomepageWeb.HomeLive do
 
   defp format_leafs_game_type(%{game_type: game_type}) do
     Map.get(@game_types, game_type, "Unknown")
+  end
+
+  defp up_alerts_present?(alerts) do
+    Enum.any?(alerts, fn %{message: message} -> message != "" end)
   end
 end

@@ -1,46 +1,59 @@
-<h2 class="font-semibold text-xl">TTC</h2>
+<.collapsible_section id="ttc-alerts" title="TTC Alerts" collapsed={@ttc_alerts == []}>
+  <%= for alert <- @ttc_alerts do %>
+    <div class="my-2">
+      <h3 class="font-semibold"><%= alert.route %> - <%= alert.route_type %></h3>
+      <p><%= alert.title %></p>
+      <p><%= alert.description %></p>
+      <p>
+        Last Updated: <span class="italic"><%= format_last_updated(alert.last_updated) %></span>
+      </p>
+    </div>
+  <% end %>
+</.collapsible_section>
 
-<%= for alert <- @ttc_alerts do %>
-  <div class="my-2">
-    <h3 class="font-semibold"><%= alert.route %> - <%= alert.route_type %></h3>
-    <p><%= alert.title %></p>
-    <p><%= alert.description %></p>
-    <p>
-      Last Updated: <span class="italic"><%= format_last_updated(alert.last_updated) %></span>
-    </p>
+<.collapsible_section
+  id="up-alerts"
+  title="Up Alerts"
+  collapsed={not up_alerts_present?(@up_alerts)}
+>
+  <%= for %{message: message} = alert when message != "" <- @up_alerts do %>
+    <div class="my-2">
+      <h3 class="font-semibold"><%= String.capitalize("#{alert.station}") %></h3>
+      <p><%= alert.message %></p>
+      <p>Last Updated: <span class="italic"><%= alert.date %> <%= alert.timestamp %></span></p>
+    </div>
+  <% end %>
+  <div :if={not up_alerts_present?(@up_alerts)} class="my-2">
+    <p class="italic">No Alerts Currently!</p>
   </div>
-<% end %>
+</.collapsible_section>
 
-<h2 class="font-semibold text-xl">UP Express</h2>
-
-<%= for %{message: message} = alert when message != "" <- @up_alerts do %>
-  <div class="my-2">
-    <h3 class="font-semibold"><%= String.capitalize("#{alert.station}") %></h3>
-    <p><%= alert.message %></p>
-    <p>Last Updated: <span class="italic"><%= alert.date %> <%= alert.timestamp %></span></p>
+<.collapsible_section id="go-alerts" title="GO Transit Alerts" collapsed={@go_alerts == []}>
+  <%= for alert <- @go_alerts do %>
+    <div class="my-2">
+      <h3 class="font-semibold"><%= String.capitalize("#{alert.route}") %></h3>
+      <p><%= alert.title %></p>
+      <p>Last Updated: <span class="italic"><%= alert.last_updated %></span></p>
+    </div>
+  <% end %>
+  <div :if={@go_alerts == []} class="my-2">
+    <p class="italic">No Alerts Currently!</p>
   </div>
-<% end %>
+</.collapsible_section>
 
-<h2 class="font-semibold text-xl">Go Transit</h2>
-
-<%= for alert <- @go_alerts do %>
-  <div class="my-2">
-    <h3 class="font-semibold"><%= String.capitalize("#{alert.route}") %></h3>
-    <p><%= alert.title %></p>
-    <p>Last Updated: <span class="italic"><%= alert.last_updated %></span></p>
-  </div>
-<% end %>
-
-<h2 class="font-semibold text-xl">Upcoming Leafs Games</h2>
-<%= for alert <- @leafs_games do %>
-  <div class="my-2">
-    <p>
-      Maple Leafs vs. <%= alert.opponent %> at <%= alert.location %><span
-        :if={alert.if_necessary}
-        class="italic"
-      > if necessary</span>
-      <span :if={format_leafs_game_type(alert) == "Preseason"} class="italic"> -- Preseason</span>
-    </p>
-    <p><%= format_leafs_start_time(alert) %></p>
-  </div>
-<% end %>
+<.collapsible_section id="leafs" title="Upcoming Leafs Games" collapsed={false}>
+  <%= for alert <- @leafs_games do %>
+    <div class="my-2">
+      <p>
+        Maple Leafs vs. <%= alert.opponent %> at <%= alert.location %><span
+          :if={alert.if_necessary}
+          class="italic"
+        > if necessary</span>
+        <span :if={format_leafs_game_type(alert) == "Preseason"} class="italic">
+          -- Preseason
+        </span>
+      </p>
+      <p><%= format_leafs_start_time(alert) %></p>
+    </div>
+  <% end %>
+</.collapsible_section>
