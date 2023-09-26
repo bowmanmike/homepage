@@ -11,8 +11,8 @@ defmodule HomepageWeb.Components.CollapsibleSection do
   def collapsible_section(assigns) do
     ~H"""
     <section class="mb-4 rounded-md shadow-md m-2 p-2">
-      <a href="#" class="flex gap-4" phx-click={toggle_visible(@id)}>
-        <button class="flex items-center gap-2">
+      <button class="flex gap-4 w-full" type="button" phx-click={toggle_visible(@id)}>
+        <div class="flex items-center gap-2">
           <div id={"closed-icon-#{dom_id(@id)}"} class={not @collapsed && "hidden"}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -42,8 +42,8 @@ defmodule HomepageWeb.Components.CollapsibleSection do
             </svg>
           </div>
           <h3 class="font-semibold text-xl text-center"><%= @title %></h3>
-        </button>
-      </a>
+        </div>
+      </button>
       <div id={dom_id(@id)} class={@collapsed && "hidden"}>
         <%= render_slot(@inner_block) %>
       </div>
