@@ -1,4 +1,8 @@
-<.collapsible_section id="ttc-alerts" title="TTC Alerts" collapsed={@ttc_alerts == []}>
+<.collapsible_section
+  id="ttc-alerts"
+  title={"TTC Alerts - #{length(@ttc_alerts)} current issues"}
+  collapsed={@ttc_alerts == []}
+>
   <%= for alert <- @ttc_alerts do %>
     <div class="my-2">
       <h3 class="font-semibold"><%= alert.route %> - <%= alert.route_type %></h3>
@@ -13,7 +17,7 @@
 
 <.collapsible_section
   id="up-alerts"
-  title="Up Alerts"
+  title={"UP Alerts - #{up_alerts_count(@up_alerts)} current issues"}
   collapsed={not up_alerts_present?(@up_alerts)}
 >
   <%= for %{message: message} = alert when message != "" <- @up_alerts do %>
@@ -28,7 +32,11 @@
   </div>
 </.collapsible_section>
 
-<.collapsible_section id="go-alerts" title="GO Transit Alerts" collapsed={@go_alerts == []}>
+<.collapsible_section
+  id="go-alerts"
+  title={"GO Transit Alerts - #{length(@go_alerts)} current issues"}
+  collapsed={@go_alerts == []}
+>
   <%= for alert <- @go_alerts do %>
     <div class="my-2">
       <h3 class="font-semibold"><%= String.capitalize("#{alert.route}") %></h3>
@@ -41,7 +49,7 @@
   </div>
 </.collapsible_section>
 
-<.collapsible_section id="leafs" title="Upcoming Leafs Games" collapsed={false}>
+<.collapsible_section id="leafs" title="Upcoming Leafs Games (next 10)" collapsed={false}>
   <%= for alert <- @leafs_games do %>
     <div class="my-2">
       <p>

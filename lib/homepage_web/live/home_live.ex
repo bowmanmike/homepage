@@ -60,4 +60,10 @@ defmodule HomepageWeb.HomeLive do
   defp up_alerts_present?(alerts) do
     Enum.any?(alerts, fn %{message: message} -> message != "" end)
   end
+
+  defp up_alerts_count(alerts) do
+    alerts
+    |> Enum.filter(fn %{message: message} -> message != "" end)
+    |> Enum.count()
+  end
 end
