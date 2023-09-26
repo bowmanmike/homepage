@@ -49,19 +49,21 @@
   </div>
 </.collapsible_section>
 
-<.collapsible_section id="leafs" title="Upcoming Leafs Games (next 10)" collapsed={false}>
+<.collapsible_section
+  id="leafs"
+  title="Upcoming Leafs Games (next 10)"
+  collapsed={length(@leafs_games) == 0}
+>
   <%= for alert <- @leafs_games do %>
     <div class="my-2">
+      <p class="font-bold"><%= format_leafs_start_time(alert) %></p>
       <p>
-        Maple Leafs vs. <%= alert.opponent %> at <%= alert.location %><span
-          :if={alert.if_necessary}
-          class="italic"
-        > if necessary</span>
+        <%= alert.opponent %> @ <%= alert.location %>
+        <span :if={alert.if_necessary} class="italic"> --  if necessary</span>
         <span :if={format_leafs_game_type(alert) == "Preseason"} class="italic">
           -- Preseason
         </span>
       </p>
-      <p><%= format_leafs_start_time(alert) %></p>
     </div>
   <% end %>
 </.collapsible_section>
