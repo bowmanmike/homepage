@@ -55,8 +55,8 @@ defmodule HomepageWeb.Components.CollapsibleSection do
     js
     |> JS.toggle(
       to: dom_selector(id),
-      in: {"transition-all duration-500", "opacity-0", "opacity-100"},
-      out: {"transition-all duration-500", "opacity-100", "opacity-0"}
+      in: {"transition-all duration-200", "opacity-0", "opacity-100"},
+      out: {"transition-all duration-200", "opacity-100", "opacity-0"}
     )
     |> JS.toggle(to: "#open-icon-#{dom_id(id)}")
     |> JS.toggle(to: "#closed-icon-#{dom_id(id)}")
