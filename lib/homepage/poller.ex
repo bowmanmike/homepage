@@ -4,7 +4,7 @@ defmodule Homepage.Poller do
   require Logger
 
   alias Homepage.Store
-  alias Homepage.Clients.{Go, TTC, UP, Leafs}
+  alias Homepage.Clients.{Go, TTC, UP, NHL}
 
   @poll_interval 5 * 60 * 1000
   @leafs_poll_interval 1000 * 60 * 60
@@ -18,7 +18,7 @@ defmodule Homepage.Poller do
     Process.send_after(self(), :poll_ttc, 0)
     Process.send_after(self(), :poll_up, 0)
     Process.send_after(self(), :poll_go, 0)
-    Process.send_after(self(), :poll_leafs, 0)
+    Process.send_after(self(), :poll_nhl, 0)
 
     {:ok, nil}
   end
@@ -54,13 +54,13 @@ defmodule Homepage.Poller do
     {:noreply, state}
   end
 
-  def handle_info(:poll_leafs, state) do
-    Logger.info("polling Leafs games")
-    games = Leafs.fetch()
+  def handle_info(:poll_nhl, state) do
+    Logger.info("polling nhl games")
+    games = NHL.fetch(10)
 
     Store.update_leafs(games)
 
-    schedule_poll(:leafs)
+    schedule_poll(:nhl)
     {:noreply, state}
   end
 
@@ -76,7 +76,7 @@ defmodule Homepage.Poller do
     Process.send_after(self(), :poll_go, @poll_interval)
   end
 
-  defp schedule_poll(:leafs) do
-    Process.send_after(self(), :poll_leafs, @leafs_poll_interval)
+  defp schedule_poll(:nhl) do
+    Process.send_after(self(), :poll_nhl, @leafs_poll_interval)
   end
 end

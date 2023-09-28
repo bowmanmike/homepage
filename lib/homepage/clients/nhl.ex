@@ -1,6 +1,6 @@
-defmodule Homepage.Clients.Leafs do
-  def fetch do
-    url()
+defmodule Homepage.Clients.NHL do
+  def fetch(team_id) do
+    url(team_id)
     |> Req.get!()
     |> handle_response()
   end
@@ -35,7 +35,7 @@ defmodule Homepage.Clients.Leafs do
     end)
   end
 
-  defp url do
+  defp url(team_id) do
     %URI{
       scheme: "https",
       port: 443,
@@ -44,7 +44,7 @@ defmodule Homepage.Clients.Leafs do
       query:
         URI.encode_query(%{
           # leafs are team_id 10
-          teamId: 10,
+          teamId: team_id,
           startDate: DateTime.utc_now() |> DateTime.to_date(),
           endDate: DateTime.utc_now() |> DateTime.add(365, :day) |> DateTime.to_date()
         })
