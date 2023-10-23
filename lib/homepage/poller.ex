@@ -25,42 +25,67 @@ defmodule Homepage.Poller do
 
   @impl true
   def handle_info(:poll_ttc, state) do
-    Logger.info("polling TTC alerts")
-    alerts = TTC.fetch()
+    Task.Supervisor.async_nolink(Homepage.TaskSupervisor, fn ->
+      Logger.info("polling TTC alerts")
+      alerts = TTC.fetch()
 
-    Store.update_ttc_alerts(alerts)
+      Store.update_ttc_alerts(alerts)
 
-    schedule_poll(:ttc)
+      schedule_poll(:ttc)
+    end)
+
     {:noreply, state}
   end
 
   def handle_info(:poll_up, state) do
-    Logger.info("polling UP alerts")
-    alerts = UP.fetch()
+    Task.Supervisor.async_nolink(Homepage.TaskSupervisor, fn ->
+      Logger.info("polling UP alerts")
+      alerts = UP.fetch()
 
-    Store.update_up_alerts(alerts)
+      Store.update_up_alerts(alerts)
+    end)
 
     schedule_poll(:up)
     {:noreply, state}
   end
 
   def handle_info(:poll_go, state) do
-    Logger.info("polling Go Transit alerts")
-    alerts = Go.fetch()
+    Task.Supervisor.async_nolink(Homepage.TaskSupervisor, fn ->
+      Logger.info("polling Go Transit alerts")
+      alerts = Go.fetch()
 
-    Store.update_go_alerts(alerts)
+      Store.update_go_alerts(alerts)
 
-    schedule_poll(:go)
+      schedule_poll(:go)
+    end)
+
     {:noreply, state}
   end
 
   def handle_info(:poll_nhl, state) do
-    Logger.info("polling nhl games")
-    games = NHL.fetch(10)
+    Task.Supervisor.async_nolink(Homepage.TaskSupervisor, fn ->
+      Logger.info("polling nhl games")
+      games = NHL.fetch(10)
 
-    Store.update_leafs(games)
+      Store.update_leafs(games)
 
-    schedule_poll(:nhl)
+      schedule_poll(:nhl)
+    end)
+
+    {:noreply, state}
+  end
+
+  # For handling
+  def handle_info({ref, _answer}, state) do
+    # We don't care about the DOWN message now, so let's demonitor and flush it
+    Process.demonitor(ref, [:flush])
+    # Do something with the result and then return
+    {:noreply, state}
+  end
+
+  def handle_info(msg, state) do
+    IO.inspect(msg)
+
     {:noreply, state}
   end
 
