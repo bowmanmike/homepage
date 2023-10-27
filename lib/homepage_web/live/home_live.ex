@@ -34,9 +34,11 @@ defmodule HomepageWeb.HomeLive do
   end
 
   def format_last_updated(timestamp) do
-    {:ok, date_time, _offset} = DateTime.from_iso8601(timestamp <> "Z")
-
-    Calendar.strftime(date_time, "%H:%m %P, %a %d %b %Y")
+    timestamp
+    |> maybe_append_z()
+    |> DateTime.from_iso8601()
+    |> then(fn {:ok, ts, _offset} -> ts end)
+    |> Calendar.strftime("%H:%m %P, %a %d %b %Y")
   end
 
   defp format_leafs_start_time(%{if_necessary: false, start_time: time}) do
@@ -65,5 +67,12 @@ defmodule HomepageWeb.HomeLive do
     alerts
     |> Enum.filter(fn %{message: message} -> message != "" end)
     |> Enum.count()
+  end
+
+  defp maybe_append_z(str) do
+    case String.ends_with?(str, "Z") do
+      true -> str
+      false -> str <> "Z"
+    end
   end
 end
