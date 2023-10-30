@@ -30,10 +30,9 @@ defmodule Homepage.Poller do
       alerts = TTC.fetch()
 
       Store.update_ttc_alerts(alerts)
-
-      schedule_poll(:ttc)
     end)
 
+    schedule_poll(:ttc)
     {:noreply, state}
   end
 
@@ -55,10 +54,9 @@ defmodule Homepage.Poller do
       alerts = Go.fetch()
 
       Store.update_go_alerts(alerts)
-
-      schedule_poll(:go)
     end)
 
+    schedule_poll(:go)
     {:noreply, state}
   end
 
@@ -68,10 +66,9 @@ defmodule Homepage.Poller do
       games = NHL.fetch(10)
 
       Store.update_leafs(games)
-
-      schedule_poll(:nhl)
     end)
 
+    schedule_poll(:nhl)
     {:noreply, state}
   end
 
