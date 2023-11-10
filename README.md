@@ -1,18 +1,13 @@
 # Homepage
 
-To start your Phoenix server:
+[https://bowman-home.fly.dev](https://bowman-home.fly.dev)
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Simple personal homepage/dashboard to aggregate useful information from several
+sources.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Includes transit delays and upcoming Toronto Maple Leafs games.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Deployed to [fly.io](https://fly.io)
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Simple Phoenix application, uses the GenServer and Task apis to asynchronously
+poll data sources and store state in an Agent.

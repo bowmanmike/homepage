@@ -63,7 +63,7 @@ defmodule Homepage.Poller do
   def handle_info(:poll_nhl, state) do
     Task.Supervisor.async_nolink(Homepage.TaskSupervisor, fn ->
       Logger.info("polling nhl games")
-      games = NHL.fetch(10)
+      games = NHL.fetch()
 
       Store.update_leafs(games)
     end)

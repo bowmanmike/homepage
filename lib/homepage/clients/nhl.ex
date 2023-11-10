@@ -1,53 +1,92 @@
 defmodule Homepage.Clients.NHL do
-  def fetch(team_id) do
-    url(team_id)
+  @game_types %{
+    1 => :pre_season,
+    2 => :regular_season
+  }
+
+  @team_abbreviations %{
+    "ANA" => "Anaheim Ducks",
+    "ARI" => "Arizona Coyotes",
+    "BOS" => "Boston Bruins",
+    "BUF" => "Buffalo Sabres",
+    "CAR" => "Carolina Hurricanes",
+    "CBJ" => "Columbus Blue Jackets",
+    "CGY" => "Calgary Flames",
+    "CHI" => "Chicago Blackhawks",
+    "COL" => "Colorado Avalanche",
+    "DAL" => "Dallas Stars",
+    "DET" => "Detroit Red Wings",
+    "EDM" => "Edmonton Oilers",
+    "FLA" => "Florida Panthers",
+    "LAK" => "Los Angeles Kings",
+    "MIN" => "Minnesota Wild",
+    "MTL" => "Montreal Canadiens",
+    "NJD" => "New Jersey Devils",
+    "NSH" => "Nashville Predators",
+    "NYI" => "New York Islanders",
+    "NYR" => "New York Rangers",
+    "OTT" => "Ottawa Senators",
+    "PHI" => "Philadelphia Flyers",
+    "PIT" => "Pittsburgh Penguins",
+    "SEA" => "Seattle Kraken",
+    "SEN" => "Ottawa Senators",
+    "SJS" => "San Jose Sharks",
+    "STL" => "St. Louis Blues",
+    "TBL" => "Tampa Bay Lightning",
+    "TOR" => "Toronto Maple Leafs",
+    "VAN" => "Vancouver Canucks",
+    "VGK" => "Vegas Golden Knights",
+    "WPG" => "Winnipeg Jets",
+    "WSH" => "Washington Capitals"
+  }
+
+  def fetch() do
+    url()
     |> Req.get!()
     |> handle_response()
   end
 
   defp handle_response(%Req.Response{status: 200, body: body}) do
-    body
-    |> Map.get("dates")
-    |> Enum.flat_map(fn date ->
-      date
-      |> Map.get("games")
-      |> Enum.take(5)
-      |> Enum.map(fn game ->
-        {:ok, start_time} =
-          game
-          |> Map.get("gameDate")
-          |> DateTime.from_iso8601()
-          |> then(fn {:ok, date, _} -> DateTime.shift_zone(date, "America/Toronto") end)
+    # require IEx; IEx.pry
+    now = DateTime.now!("UTC")
 
-        %{
-          start_time: start_time,
-          location: get_in(game, ["venue", "name"]),
-          if_necessary:
-            game |> Map.get("status") |> Map.get("detailedState") |> String.match?(~r/TBD/),
-          opponent:
-            Map.get(game, "teams")
-            |> Enum.map(fn {_, team} -> Map.get(team, "team") end)
-            |> Enum.find(&(Map.get(&1, "name") != "Toronto Maple Leafs"))
-            |> Map.get("name"),
-          game_type: Map.get(game, "gameType")
-        }
-      end)
+    body
+    |> Map.get("games")
+    |> Enum.filter(fn %{"startTimeUTC" => game_date} ->
+      {:ok, date, _} = DateTime.from_iso8601(game_date)
+
+      DateTime.after?(date, now)
+    end)
+    |> Enum.take(10)
+    |> Enum.map(fn game ->
+      {:ok, start_time} =
+        game
+        |> Map.get("startTimeUTC")
+        |> DateTime.from_iso8601()
+        |> then(fn {:ok, date, _} -> DateTime.shift_zone(date, "America/Toronto") end)
+
+      %{
+        start_time: start_time,
+        location: Map.get(game, "venue") |> Map.get("default"),
+        # TODO: fix this when we get playofs
+        if_necessary: false,
+        opponent:
+          game
+          |> Map.take(["homeTeam", "awayTeam"])
+          |> Enum.map(fn {_key, value} -> value["abbrev"] end)
+          |> Enum.find(fn team -> team != "TOR" end)
+          |> then(fn team ->Map.get(@team_abbreviations, team) end),
+        game_type: Map.get(@game_types, game["gameType"])
+      }
     end)
   end
 
-  defp url(team_id) do
+  defp url() do
     %URI{
       scheme: "https",
       port: 443,
-      host: "statsapi.web.nhl.com",
-      path: "/api/v1/schedule",
-      query:
-        URI.encode_query(%{
-          # leafs are team_id 10
-          teamId: team_id,
-          startDate: DateTime.utc_now() |> DateTime.to_date(),
-          endDate: DateTime.utc_now() |> DateTime.add(365, :day) |> DateTime.to_date()
-        })
+      host: "api-web.nhle.com",
+      path: "/v1/club-schedule-season/tor/20232024"
     }
   end
 end
