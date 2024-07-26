@@ -47,7 +47,6 @@ defmodule Homepage.Clients.NHL do
   end
 
   defp handle_response(%Req.Response{status: 200, body: body}) do
-    # require IEx; IEx.pry
     now = DateTime.now!("UTC")
 
     body
@@ -75,7 +74,7 @@ defmodule Homepage.Clients.NHL do
           |> Map.take(["homeTeam", "awayTeam"])
           |> Enum.map(fn {_key, value} -> value["abbrev"] end)
           |> Enum.find(fn team -> team != "TOR" end)
-          |> then(fn team ->Map.get(@team_abbreviations, team) end),
+          |> then(fn team -> Map.get(@team_abbreviations, team) end),
         game_type: Map.get(@game_types, game["gameType"])
       }
     end)
@@ -86,7 +85,7 @@ defmodule Homepage.Clients.NHL do
       scheme: "https",
       port: 443,
       host: "api-web.nhle.com",
-      path: "/v1/club-schedule-season/tor/20232024"
+      path: "/v1/club-schedule-season/tor/20242025"
     }
   end
 end
