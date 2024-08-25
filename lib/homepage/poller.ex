@@ -17,7 +17,8 @@ defmodule Homepage.Poller do
   def init(_args) do
     Process.send_after(self(), :poll_ttc, 0)
     Process.send_after(self(), :poll_up, 0)
-    Process.send_after(self(), :poll_go, 0)
+    # TODO: Disabled temporarily due to instability
+    # Process.send_after(self(), :poll_go, 0)
     Process.send_after(self(), :poll_nhl, 0)
 
     {:ok, nil}
