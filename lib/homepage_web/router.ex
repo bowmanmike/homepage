@@ -23,6 +23,8 @@ defmodule HomepageWeb.Router do
 
     live "/", HomeLive
     get "/home", HomeController, :index, accepts: ["json"]
+
+    get("/health", HealthController, :health)
   end
 
   # Other scopes may use custom stacks.
