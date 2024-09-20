@@ -5,7 +5,7 @@ defmodule Homepage.MixProject do
     [
       app: :homepage,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.17",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -39,7 +39,7 @@ defmodule Homepage.MixProject do
       {:floki, ">= 0.30.0"},
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
-      {:phoenix, "~> 1.7.2"},
+      {:phoenix, "~> 1.7.14"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_dashboard, "~> 0.8.0"},
