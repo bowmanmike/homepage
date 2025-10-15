@@ -85,7 +85,7 @@ defmodule Homepage.Clients.NHL do
       scheme: "https",
       port: 443,
       host: "api-web.nhle.com",
-      path: "/v1/club-schedule-season/tor/20242025"
+      path: "/v1/club-schedule-season/tor/20252026"
     }
   end
 end
