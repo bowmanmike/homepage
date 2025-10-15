@@ -6,7 +6,6 @@ defmodule Homepage.Clients.NHL do
 
   @team_abbreviations %{
     "ANA" => "Anaheim Ducks",
-    "ARI" => "Arizona Coyotes",
     "BOS" => "Boston Bruins",
     "BUF" => "Buffalo Sabres",
     "CAR" => "Carolina Hurricanes",
@@ -34,6 +33,7 @@ defmodule Homepage.Clients.NHL do
     "STL" => "St. Louis Blues",
     "TBL" => "Tampa Bay Lightning",
     "TOR" => "Toronto Maple Leafs",
+    "UTA" => "Utah Mammoth",
     "VAN" => "Vancouver Canucks",
     "VGK" => "Vegas Golden Knights",
     "WPG" => "Winnipeg Jets",
