@@ -49,7 +49,7 @@ defmodule Homepage.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:req, "~> 0.3"},
       {:swoosh, "~> 1.3"},
-      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.4.0", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:tzdata, "~> 1.1"}
