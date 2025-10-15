@@ -21,7 +21,7 @@ defmodule Homepage.Application do
       # Start a worker by calling: Homepage.Worker.start_link(arg)
       {Task.Supervisor, name: Homepage.TaskSupervisor},
       {Homepage.Store, Homepage.Store.defaults()},
-      # {Homepage.Poller, []}
+      {Homepage.Poller, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
