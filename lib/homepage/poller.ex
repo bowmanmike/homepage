@@ -34,7 +34,6 @@ defmodule Homepage.Poller do
     end)
 
     schedule_poll(:ttc)
-    Logger.info("Memory used: #{:erlang.memory(:total)}")
     {:noreply, state}
   end
 
@@ -47,7 +46,6 @@ defmodule Homepage.Poller do
     end)
 
     schedule_poll(:up)
-    Logger.info("Memory used: #{:erlang.memory(:total)}")
     {:noreply, state}
   end
 
@@ -60,7 +58,6 @@ defmodule Homepage.Poller do
     end)
 
     schedule_poll(:go)
-    Logger.info("Memory used: #{:erlang.memory(:total)}")
     {:noreply, state}
   end
 
@@ -73,7 +70,6 @@ defmodule Homepage.Poller do
     end)
 
     schedule_poll(:nhl)
-    Logger.info("Memory used: #{:erlang.memory(:total)}")
     {:noreply, state}
   end
 
