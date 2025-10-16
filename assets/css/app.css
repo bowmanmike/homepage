@@ -1,3 +1,7 @@
 @import "tailwindcss";
 
+@source "../js/**/*.{js,ts}";
+@source "../../lib/homepage_web.ex";
+@source "../../lib/homepage_web/**/*.{ex,heex}";
+
 /* This file is for your main application CSS */
